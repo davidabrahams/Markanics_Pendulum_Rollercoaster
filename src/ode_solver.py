@@ -6,11 +6,14 @@ __author__ = 'davidabrahams'
 
 
 class ODESolver:
+
     g = 9.8
 
     def __init__(self):
         self.m = 1
         self.dt = 1 / 24.0
+        self.t_0 = 0
+        self.t_f = 20
 
     def f_x(self, x):
         return 10 * math.cos(x) + 0.25 * (x - 10) ** 2
@@ -36,17 +39,14 @@ class ODESolver:
         x_dot_0 = 1
         initials = [x_0, x_dot_0]
 
-        t_0 = 0
-        t_f = 20
-
         T = []
         Solns = []
 
         solver = ode(derivs)
-        solver.set_initial_value(initials, t_0)
+        solver.set_initial_value(initials, self.t_0)
         solver.set_integrator('dopri5')
 
-        while solver.successful() and solver.t < t_f:
+        while solver.successful() and solver.t < self.t_f:
             solver.integrate(solver.t + self.dt)
             T.append(solver.t)
             Solns.append(solver.y)
