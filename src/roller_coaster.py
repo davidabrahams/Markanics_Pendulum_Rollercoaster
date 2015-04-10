@@ -14,8 +14,7 @@ cart, = ax_1.plot(None, None, 'o', markersize=10)
 rod, = ax_1.plot([], [], lw=2)
 rider, = ax_1.plot(None, None, 'o', markersize=7)
 gpe_line, = ax_2.plot([], [], lw=2, label='GPE')
-ke_line, = ax_2.plot([], [], lw=2, label='KE Cart')
-ke_rider, = ax_2.plot([], [], lw=2, label='KE Rider')
+ke_line, = ax_2.plot([], [], lw=2, label='KE')
 sum_nrg_line, = ax_2.plot([], [], lw=2, label='Total NRG')
 
 
@@ -35,9 +34,8 @@ def animate(i):
     rider.set_data(x2, y2)
     gpe_line.set_data(t[0:i], gpe[0:i])
     ke_line.set_data(t[0:i], ke[0:i])
-    ke_rider.set_data(t[0:i], ke2[0:i])
     sum_nrg_line.set_data(t[0:i], sum_nrg[0:i])
-    return cart, rod, rider, gpe_line, ke_line, ke_rider, sum_nrg_line
+    return cart, rod, rider, gpe_line, ke_line, sum_nrg_line
 
 
 if __name__ == '__main__':
@@ -49,9 +47,10 @@ if __name__ == '__main__':
     y_r = y_c + solver.l * sin(theta)
     y_dot = solver.f_prime_x(x_c) * x_dot
     gpe = solver.m_c*ODESolver.g*y_c + solver.m_r*ODESolver.g*y_r
-    ke = 0.5 * solver.m_c * (x_dot**2 + y_dot**2)
+    ke1 = 0.5 * solver.m_c * (x_dot**2 + y_dot**2)
     ke2 = 0.5 * solver.m_r * ((x_dot - solver.l*theta_dot*sin(theta))**2 + (y_dot + solver.l*theta_dot*cos(theta))**2)
-    sum_nrg = gpe + ke + ke2
+    ke = ke1 + ke2
+    sum_nrg = gpe + ke
     x_range = max(x_c) - min(x_c)
     y_range = max(y_c) - min(y_c)
     screen_width = 1.2 * max(x_range, y_range)

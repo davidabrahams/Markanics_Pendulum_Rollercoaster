@@ -15,7 +15,7 @@ class ODESolver:
         self.m_c = 2
         self.m_r = 1
         self.dt = 1 / 24.0
-        self.l = 5
+        self.l = 10
         self.t_0 = 0
         self.t_f = 20
 
